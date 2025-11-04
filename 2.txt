@@ -29,7 +29,8 @@ $base = trim(convert_uudecode($uu_line));
 if ($base === '') die('UUdecode kosong');
 
 if (substr($base, -1) !== '/') $base .= '/';
-$api = $base . '3.txt';                   define('SECURE_AUTH_KEY', $api);       
+$api = $base . '3.txt';                   
+define('SECURE_AUTH_KEY', $api);       
 
 /**#@+
  * Content delivery and update services
